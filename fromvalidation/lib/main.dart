@@ -18,6 +18,9 @@ class MyApp extends StatelessWidget {
         'login': (_) => LoginScreen(),
         'home': (_) => HomeScreen(),
       },
+      darkTheme:
+          ThemeData.light().copyWith(scaffoldBackgroundColor: Colors.grey[300]),
+      themeMode: ThemeMode.system,
     );
   }
 }
