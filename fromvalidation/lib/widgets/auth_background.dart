@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AuthBackground extends StatelessWidget {
   final Widget child;
 
-  const AuthBackground({@required this.child});
+  const AuthBackground({required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +61,8 @@ class _PurpleBox extends StatelessWidget {
 
   BoxDecoration _purpleBackground() => BoxDecoration(
           gradient: LinearGradient(colors: [
-        Color.fromRGBO(63, 63, 156, 1),
-        Color.fromRGBO(90, 70, 178, 1),
+        Color.fromRGBO(150, 30, 30, 1),
+        Color.fromRGBO(170, 40, 47, 1),
       ], begin: Alignment.topLeft, end: Alignment.bottomRight));
 }
 
