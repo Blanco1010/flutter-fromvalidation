@@ -6,6 +6,14 @@ class LoginFormProvider extends ChangeNotifier {
   String email = '';
   String password = '';
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  set isLoading(bool value) {
+    this._isLoading = value;
+    notifyListeners();
+  }
+
   bool isValidForm() {
     print(formKey.currentState?.validate());
 
