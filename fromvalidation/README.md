@@ -1,6 +1,6 @@
 # fromvalidation
 
-A new Flutter project.
+Un proyecto con formulario y CRUD para la galería 
 
 ## Getting Started
 
