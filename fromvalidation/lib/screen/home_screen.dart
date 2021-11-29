@@ -22,7 +22,9 @@ class HomeScreen extends StatelessWidget {
             SliverList(
               delegate:
                   SliverChildBuilderDelegate((BuildContext context, int index) {
-                return ProductCard();
+                return GestureDetector(
+                    child: ProductCard(),
+                    onTap: () => Navigator.pushNamed(context, 'product'));
               }, childCount: 10),
             )
           ],

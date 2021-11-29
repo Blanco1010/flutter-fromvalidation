@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fromvalidation/screen/home_screen.dart';
-import 'package:fromvalidation/screen/screens.dart';
 import 'package:fromvalidation/themes/themes.dart';
+import 'package:fromvalidation/routes/routes.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,10 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'Material APP',
       theme: themeData,
       initialRoute: 'home',
-      routes: {
-        'login': (_) => LoginScreen(),
-        'home': (_) => HomeScreen(),
-      },
+      routes: appRoutes,
       darkTheme:
           ThemeData.light().copyWith(scaffoldBackgroundColor: Colors.grey[300]),
       themeMode: ThemeMode.system,
