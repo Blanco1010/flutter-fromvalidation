@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:fromvalidation/themes/themes.dart';
-import 'package:fromvalidation/routes/routes.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(MyApp());
+import 'package:fromvalidation/services/services.dart';
+
+import 'package:fromvalidation/routes/routes.dart';
+import 'package:fromvalidation/themes/themes.dart';
+
+void main() => runApp(AppState());
+
+class AppState extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => ProductsService())],
+      child: MyApp(),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
