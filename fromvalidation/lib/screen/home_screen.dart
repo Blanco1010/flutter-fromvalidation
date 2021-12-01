@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fromvalidation/services/services.dart';
 import 'package:fromvalidation/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final productsService = Provider.of<ProductsService>(context);
+
     return Scaffold(
       // appBar: AppBar(title: Text('Producto'), centerTitle: true),
       body: SafeArea(

@@ -18,6 +18,7 @@ class Product {
   String? picture;
   int price;
   bool available;
+  String? id;
 
   factory Product.fromJson(String str) => Product.fromMap(json.decode(str));
 
