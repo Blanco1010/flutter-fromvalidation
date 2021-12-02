@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fromvalidation/models/product.dart';
 
 class ProductCard extends StatelessWidget {
+  final Product product;
+
+  const ProductCard({required this.product});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -13,10 +18,25 @@ class ProductCard extends StatelessWidget {
         child: Stack(
           alignment: Alignment.bottomLeft,
           children: [
-            _BackgroundImage(),
-            _ProductDetails(),
-            Positioned(top: 0, right: 0, child: _PriceTag()),
-            Positioned(top: 0, left: 0, child: _NotAvailable()),
+            _BackgroundImage(
+              urlPicture: product.picture,
+            ),
+            _ProductDetails(
+              title: product.name,
+              subtitle: product.id!,
+            ),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: _PriceTag(
+                price: product.price.toDouble(),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              child: _NotAvailable(available: product.available),
+            ),
           ],
         ),
       ),
@@ -36,6 +56,9 @@ class ProductCard extends StatelessWidget {
 }
 
 class _NotAvailable extends StatelessWidget {
+  final bool available;
+
+  const _NotAvailable({required this.available});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,7 +67,7 @@ class _NotAvailable extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: Text(
-            'No disponible',
+            available ? 'disponible' : 'No disponible',
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
         ),
@@ -52,7 +75,7 @@ class _NotAvailable extends StatelessWidget {
       width: 100,
       height: 70,
       decoration: BoxDecoration(
-        color: Colors.amber[500],
+        color: available ? Colors.green[500] : Colors.amber[500],
         borderRadius: BorderRadius.only(
           bottomRight: Radius.circular(25),
           topLeft: Radius.circular(25),
@@ -63,6 +86,9 @@ class _NotAvailable extends StatelessWidget {
 }
 
 class _PriceTag extends StatelessWidget {
+  final double price;
+
+  const _PriceTag({required this.price});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -72,7 +98,7 @@ class _PriceTag extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: Text(
-            '\$103.99',
+            '\$$price',
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
         ),
@@ -91,6 +117,11 @@ class _PriceTag extends StatelessWidget {
 }
 
 class _ProductDetails extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  const _ProductDetails({required this.title, required this.subtitle});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -104,7 +135,7 @@ class _ProductDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Disco duro G',
+              '$title',
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.white,
@@ -114,7 +145,7 @@ class _ProductDetails extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
             Text(
-              'Id del disco duro',
+              subtitle,
               style: TextStyle(fontSize: 15, color: Colors.white),
               overflow: TextOverflow.ellipsis,
             ),
@@ -134,6 +165,9 @@ class _ProductDetails extends StatelessWidget {
 }
 
 class _BackgroundImage extends StatelessWidget {
+  final String? urlPicture;
+
+  const _BackgroundImage({this.urlPicture});
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -141,11 +175,17 @@ class _BackgroundImage extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: double.infinity,
-        child: FadeInImage(
-          placeholder: AssetImage('assets/img/jar-loading.gif'),
-          image: NetworkImage('https://via.placeholder.com/400x300/f6f6f6'),
-          fit: BoxFit.cover,
-        ),
+        child: urlPicture == null
+            ? Image(
+                image: AssetImage('assets/img/no-image.png'),
+                fit: BoxFit.cover,
+              )
+            : FadeInImage(
+                placeholder: AssetImage('assets/img/jar-loading.gif'),
+                // image: NetworkImage('https://via.placeholder.com/400x300/f6f6f6'),
+                image: NetworkImage(urlPicture!),
+                fit: BoxFit.cover,
+              ),
       ),
     );
   }

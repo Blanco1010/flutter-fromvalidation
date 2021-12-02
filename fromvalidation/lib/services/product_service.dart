@@ -8,11 +8,16 @@ class ProductsService extends ChangeNotifier {
 
   final List<Product> products = [];
 
+  bool isLoading = true;
+
   ProductsService() {
     this.loadProducts();
   }
 
-  Future loadProducts() async {
+  Future<List<Product>> loadProducts() async {
+    this.isLoading = true;
+    notifyListeners();
+
     final url = Uri.https(_baseUrl, 'products.json');
     final resp = await http.get(url);
 
@@ -24,6 +29,9 @@ class ProductsService extends ChangeNotifier {
       this.products.add(tempProduct);
     });
 
-    print(productsMap);
+    this.isLoading = false;
+    notifyListeners();
+
+    return this.products;
   }
 }
