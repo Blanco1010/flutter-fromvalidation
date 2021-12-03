@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ProductImage extends StatelessWidget {
+  final String? url;
+
+  const ProductImage(this.url);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -9,16 +13,20 @@ class ProductImage extends StatelessWidget {
         decoration: _buildBoxDecoration(),
         height: 450,
         child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(25),
-            topRight: Radius.circular(25),
-          ),
-          child: FadeInImage(
-            placeholder: AssetImage('assets/img/jar-loading.gif'),
-            image: NetworkImage('https://via.placeholder.com/400x300/green'),
-            fit: BoxFit.cover,
-          ),
-        ),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(25),
+              topRight: Radius.circular(25),
+            ),
+            child: this.url == null
+                ? Image(
+                    image: AssetImage('assets/img/no-image.png'),
+                    fit: BoxFit.cover,
+                  )
+                : FadeInImage(
+                    placeholder: AssetImage('assets/img/jar-loading.gif'),
+                    image: NetworkImage(this.url!),
+                    fit: BoxFit.cover,
+                  )),
       ),
     );
   }

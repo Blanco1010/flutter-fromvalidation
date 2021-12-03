@@ -30,7 +30,11 @@ class HomeScreen extends StatelessWidget {
                 SliverChildBuilderDelegate((BuildContext context, int index) {
               return GestureDetector(
                   child: ProductCard(product: productsService.products[index]),
-                  onTap: () => Navigator.pushNamed(context, 'product'));
+                  onTap: () {
+                    productsService.selectedProduct =
+                        productsService.products[index].copy();
+                    Navigator.pushNamed(context, 'product');
+                  });
             }, childCount: productsService.products.length),
           )
         ],

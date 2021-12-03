@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:fromvalidation/ui/input_decorations.dart';
+
+import 'package:fromvalidation/services/services.dart';
+
 import 'package:fromvalidation/widgets/widgets.dart';
 
 class ProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final productService = Provider.of<ProductsService>(context);
+
     return Scaffold(
       // appBar: AppBar(
       //   leading: GestureDetector(
@@ -18,7 +24,7 @@ class ProductScreen extends StatelessWidget {
           children: [
             Stack(
               children: [
-                ProductImage(),
+                ProductImage(productService.selectedProduct.picture),
                 Positioned(
                   top: 60,
                   left: 10,
