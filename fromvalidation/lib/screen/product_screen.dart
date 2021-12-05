@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fromvalidation/providers/product_form_provider.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:fromvalidation/providers/product_form_provider.dart';
 import 'package:fromvalidation/ui/input_decorations.dart';
 
 import 'package:fromvalidation/services/services.dart';
@@ -36,6 +37,8 @@ class _ProductScreenBody extends StatelessWidget {
       //   ),
       // ),
       body: SingleChildScrollView(
+        // To hiden the keyboard when to drag the screen
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         physics: BouncingScrollPhysics(),
         child: Column(
           children: [
@@ -114,16 +117,22 @@ class _ProductForm extends StatelessWidget {
               SizedBox(height: 30),
               TextFormField(
                 initialValue: '${product.price}',
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r'^(\d+)?\.?\d{0,2}'))
+                ],
                 onChanged: (value) {
                   if (double.tryParse(value) == null) {
                     product.price = 0;
                   } else {
-                    product.price = double.parse(value) as int;
+                    product.price = double.parse(value);
                   }
                 },
                 validator: (value) {
-                  if (value == null || value.length < 1)
+                  if (value == null || value.length < 1) {
+                    print('test');
                     return 'El nombre es obligatorio';
+                  }
                 },
                 keyboardType: TextInputType.number,
                 decoration: InputDecorations.authInputDecoration(
@@ -135,7 +144,7 @@ class _ProductForm extends StatelessWidget {
               SizedBox(height: 30),
               SwitchListTile.adaptive(
                 value: product.available,
-                onChanged: (value) {},
+                onChanged: (value) => productForm.updateAvailability(value),
                 title: Text('Disponible'),
                 activeTrackColor: Colors.red[300],
                 activeColor: Colors.white,
