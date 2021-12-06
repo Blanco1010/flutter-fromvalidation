@@ -13,6 +13,8 @@ class ProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final productService = Provider.of<ProductsService>(context);
 
+    // to handle the states in the form with ChangeNotifierProvider
+
     return ChangeNotifierProvider(
       create: (_) => ProductFormProvider(productService.selectedProduct),
       child: _ProductScreenBody(
@@ -29,6 +31,8 @@ class _ProductScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productForm = Provider.of<ProductFormProvider>(context);
+
     return Scaffold(
       // appBar: AppBar(
       //   leading: GestureDetector(
@@ -61,7 +65,7 @@ class _ProductScreenBody extends StatelessWidget {
                   top: 60,
                   right: 30,
                   child: IconButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => {},
                     icon: Icon(
                       Icons.camera_alt_outlined,
                       color: Colors.white,
@@ -78,7 +82,11 @@ class _ProductScreenBody extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          if (productForm.isValidForm()) {
+            productService.saverOrCreateProduct(productService.selectedProduct);
+          }
+        },
         child: Icon(Icons.save),
       ),
     );
@@ -98,6 +106,8 @@ class _ProductForm extends StatelessWidget {
         width: double.infinity,
         decoration: _buildBoxDecoration(),
         child: Form(
+          key: productForm.formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             children: [
               SizedBox(height: 10),
