@@ -82,13 +82,38 @@ class _ProductScreenBody extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
+          FocusScope.of(context).unfocus();
+
           if (productForm.isValidForm()) {
-            productService.saverOrCreateProduct(productService.selectedProduct);
-          }
+            _showLoadingIndicator(context);
+            await productService
+                .saverOrCreateProduct(productService.selectedProduct);
+          } else {}
+
+          Navigator.pop(context);
         },
         child: Icon(Icons.save),
       ),
+    );
+  }
+
+  Future<dynamic> _showLoadingIndicator(BuildContext context) {
+    return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+            ),
+            backgroundColor: Colors.black,
+            content: LoadingIndicator(text: 'Guardando'),
+          ),
+        );
+      },
     );
   }
 }

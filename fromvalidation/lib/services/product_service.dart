@@ -60,6 +60,8 @@ class ProductsService extends ChangeNotifier {
     print(decodedData);
 
     //Update the list of products
+    products[products.indexWhere((element) => element.id == product.id)] =
+        product;
 
     return product.id!;
   }
