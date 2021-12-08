@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:fromvalidation/screen/screens.dart';
-import 'package:fromvalidation/services/services.dart';
-import 'package:fromvalidation/widgets/widgets.dart';
 import 'package:provider/provider.dart';
+
+import 'package:fromvalidation/models/product.dart';
+
+import 'package:fromvalidation/screen/screens.dart';
+
+import 'package:fromvalidation/services/services.dart';
+
+import 'package:fromvalidation/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -40,8 +45,12 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
         child: Icon(Icons.add, size: 40),
+        onPressed: () {
+          productsService.selectedProduct =
+              new Product(available: false, name: '', price: 0);
+          Navigator.pushNamed(context, 'product');
+        },
       ),
     );
   }
