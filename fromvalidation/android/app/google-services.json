@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "356860676559",
+    "firebase_url": "https://flutter-varios-c879c-default-rtdb.firebaseio.com",
+    "project_id": "flutter-varios-c879c",
+    "storage_bucket": "flutter-varios-c879c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356860676559:android:a4ce1d4861cfbb6421aaba",
+        "android_client_info": {
+          "package_name": "com.blanco.tienda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "356860676559-d0c7b7uldhfuiakc7e19poqrad6iavma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAjrvL0lTcl4fajqaxI5F7f4HEbr1ep_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "356860676559-d0c7b7uldhfuiakc7e19poqrad6iavma.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fromvalidation/services/firebase_service.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:fromvalidation/providers/product_form_provider.dart';
 import 'package:fromvalidation/ui/input_decorations.dart';
@@ -65,7 +69,25 @@ class _ProductScreenBody extends StatelessWidget {
                   top: 60,
                   right: 30,
                   child: IconButton(
-                    onPressed: () => {},
+                    onPressed: () async {
+                      final _picker = new ImagePicker();
+                      final XFile? _pickedFile = await _picker.pickImage(
+                        source: ImageSource.camera,
+                        imageQuality: 100,
+                      );
+
+                      if (_pickedFile == null) {
+                        print('No seleccionó nada');
+                        return;
+                      }
+
+                      print('Tenemos imagen ${_pickedFile.path}');
+
+                      File _file = File(_pickedFile.path);
+
+                      FirebaseApi.uploadFile(
+                          'multimedia-tienda/${_pickedFile.name}', _file);
+                    },
                     icon: Icon(
                       Icons.camera_alt_outlined,
                       color: Colors.white,

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+
 import 'package:fromvalidation/services/services.dart';
 
 import 'package:fromvalidation/routes/routes.dart';
 import 'package:fromvalidation/themes/themes.dart';
 
-void main() => runApp(AppState());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  return runApp(AppState());
+}
 
 class AppState extends StatelessWidget {
   @override
