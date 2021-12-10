@@ -38,12 +38,6 @@ class _ProductScreenBody extends StatelessWidget {
     final productForm = Provider.of<ProductFormProvider>(context);
 
     return Scaffold(
-      // appBar: AppBar(
-      //   leading: GestureDetector(
-      //     onTap: () => Navigator.pop(context),
-      //     child: Icon(Icons.exit_to_app),
-      //   ),
-      // ),
       body: SingleChildScrollView(
         // To hiden the keyboard when to drag the screen
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -82,11 +76,13 @@ class _ProductScreenBody extends StatelessWidget {
                       }
 
                       print('Tenemos imagen ${_pickedFile.path}');
+                      productService
+                          .updateSelectedProductImage(_pickedFile.path);
 
-                      File _file = File(_pickedFile.path);
+                      // File _file = File(_pickedFile.path);
 
-                      FirebaseApi.uploadFile(
-                          'multimedia-tienda/${_pickedFile.name}', _file);
+                      // FirebaseApi.uploadFile(
+                      //     'multimedia-tienda/${_pickedFile.name}', _file);
                     },
                     icon: Icon(
                       Icons.camera_alt_outlined,
