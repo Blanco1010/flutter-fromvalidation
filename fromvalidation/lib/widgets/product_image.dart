@@ -92,7 +92,6 @@ class ProductImage extends StatelessWidget {
         },
       );
     } else {
-      print('HOLAAAAAAAAAAAAAA');
       return Image.file(File(picture));
     }
   }

@@ -104,10 +104,12 @@ class _ProductScreenBody extends StatelessWidget {
 
             File _filePath = productService.newPictureFile!;
 
-            await productService.uploadFile(
-              'multimedia-tienda/${productService.newNamePicture}',
-              _filePath,
-            );
+            if (productService.newPictureFile != null) {
+              await productService.uploadFile(
+                'multimedia-tienda/${productService.newNamePicture}',
+                _filePath,
+              );
+            }
           } else {}
 
           Navigator.pop(context);
