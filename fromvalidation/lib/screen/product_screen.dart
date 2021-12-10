@@ -76,13 +76,7 @@ class _ProductScreenBody extends StatelessWidget {
                       }
 
                       print('Tenemos imagen ${_pickedFile.path}');
-                      productService
-                          .updateSelectedProductImage(_pickedFile.path);
-
-                      // File _file = File(_pickedFile.path);
-
-                      // FirebaseApi.uploadFile(
-                      //     'multimedia-tienda/${_pickedFile.name}', _file);
+                      productService.updateSelectedProductImage(_pickedFile);
                     },
                     icon: Icon(
                       Icons.camera_alt_outlined,
@@ -107,6 +101,13 @@ class _ProductScreenBody extends StatelessWidget {
             _showLoadingIndicator(context);
             await productService
                 .saverOrCreateProduct(productService.selectedProduct);
+
+            File _filePath = productService.newPictureFile!;
+
+            await productService.uploadFile(
+              'multimedia-tienda/${productService.newNamePicture}',
+              _filePath,
+            );
           } else {}
 
           Navigator.pop(context);

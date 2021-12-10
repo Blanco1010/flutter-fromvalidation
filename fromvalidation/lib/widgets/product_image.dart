@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class ProductImage extends StatelessWidget {
@@ -17,11 +18,12 @@ class ProductImage extends StatelessWidget {
         child: Opacity(
           opacity: 0.9,
           child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25),
-                topRight: Radius.circular(25),
-              ),
-              child: getImage(url)),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(25),
+              topRight: Radius.circular(25),
+            ),
+            child: getImage(url),
+          ),
         ),
       ),
     );
@@ -29,7 +31,7 @@ class ProductImage extends StatelessWidget {
 
   BoxDecoration _buildBoxDecoration() {
     return BoxDecoration(
-      borderRadius: BorderRadius.circular(25),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
       color: Colors.black,
       boxShadow: [
         BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 5))
@@ -38,6 +40,15 @@ class ProductImage extends StatelessWidget {
   }
 
   Widget getImage(String? picture) {
+    print('PRUEBA');
+    print(picture);
+    bool control = false;
+    String name = '';
+    if (picture != null) {
+      name = (picture.split("/")[6]);
+    } else {
+      control = true;
+    }
     if (picture == null)
       return Image(
         image: AssetImage('assets/img/no-image.png'),
@@ -47,13 +58,42 @@ class ProductImage extends StatelessWidget {
     if (picture.startsWith('http'))
       return FadeInImage(
         placeholder: AssetImage('assets/img/jar-loading.gif'),
-        image: NetworkImage(this.url!),
+        image: NetworkImage(picture),
         fit: BoxFit.cover,
       );
 
-    return Image.file(
-      File(picture),
-      fit: BoxFit.cover,
-    );
+    if (control) {
+      final ref =
+          FirebaseStorage.instance.ref().child('/multimedia-tienda/$name');
+      // no need of the file extension, the name will do fine.
+      String url;
+
+      return FutureBuilder(
+        future: ref.getDownloadURL(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasData) {
+            url = snapshot.data;
+
+            return DecoratedBox(
+              decoration: BoxDecoration(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(25))),
+              child: Image.network(
+                url,
+                fit: BoxFit.cover,
+              ),
+            );
+          } else {
+            return Image(
+              image: AssetImage('assets/img/jar-loading.gif'),
+              fit: BoxFit.cover,
+            );
+          }
+        },
+      );
+    } else {
+      print('HOLAAAAAAAAAAAAAA');
+      return Image.file(File(picture));
+    }
   }
 }

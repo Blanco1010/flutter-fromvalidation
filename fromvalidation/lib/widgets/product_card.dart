@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fromvalidation/models/product.dart';
 
@@ -173,20 +174,55 @@ class _BackgroundImage extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(25),
       child: Container(
-        width: double.infinity,
-        height: double.infinity,
-        child: urlPicture == null
-            ? Image(
-                image: AssetImage('assets/img/no-image.png'),
-                fit: BoxFit.cover,
-              )
-            : FadeInImage(
-                placeholder: AssetImage('assets/img/jar-loading.gif'),
-                // image: NetworkImage('https://via.placeholder.com/400x300/f6f6f6'),
-                image: NetworkImage(urlPicture!),
-                fit: BoxFit.cover,
-              ),
-      ),
+          width: double.infinity,
+          height: double.infinity,
+          child: getImage(urlPicture)),
+    );
+  }
+
+  Widget getImage(String? picture) {
+    String name = '';
+    if (picture != null) name = (picture.split("/")[6]);
+
+    if (picture == null)
+      return Image(
+        image: AssetImage('assets/img/no-image.png'),
+        fit: BoxFit.cover,
+      );
+
+    if (picture.startsWith('http'))
+      return FadeInImage(
+        placeholder: AssetImage('assets/img/jar-loading.gif'),
+        image: NetworkImage(picture),
+        fit: BoxFit.cover,
+      );
+
+    final ref =
+        FirebaseStorage.instance.ref().child('/multimedia-tienda/$name');
+// no need of the file extension, the name will do fine.
+    String url;
+
+    return FutureBuilder(
+      future: ref.getDownloadURL(),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.hasData) {
+          url = snapshot.data;
+
+          return DecoratedBox(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(25))),
+            child: Image.network(
+              url,
+              fit: BoxFit.cover,
+            ),
+          );
+        } else {
+          return Image(
+            image: AssetImage('assets/img/jar-loading.gif'),
+            fit: BoxFit.cover,
+          );
+        }
+      },
     );
   }
 }

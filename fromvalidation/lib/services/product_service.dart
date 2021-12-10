@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fromvalidation/models/models.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 class ProductsService extends ChangeNotifier {
   final String _baseUrl = 'flutter-varios-c879c-default-rtdb.firebaseio.com';
@@ -12,6 +14,7 @@ class ProductsService extends ChangeNotifier {
   late Product selectedProduct;
 
   File? newPictureFile;
+  String? newNamePicture;
 
   bool isLoading = true;
   bool isSaving = false;
@@ -81,9 +84,23 @@ class ProductsService extends ChangeNotifier {
     return product.id!;
   }
 
-  void updateSelectedProductImage(String path) {
-    this.selectedProduct.picture = path;
-    this.newPictureFile = File.fromUri(Uri(path: path));
+  void updateSelectedProductImage(XFile file) {
+    this.selectedProduct.picture = file.path;
+
+    this.newPictureFile = File(file.path);
+    this.newNamePicture = file.name;
+    // this.newPictureFile = File.fromUri(Uri(path: this.selectedProduct.picture));
     notifyListeners();
+  }
+
+  Future uploadFile(String destination, File file) async {
+    try {
+      final ref = FirebaseStorage.instance.ref(destination);
+
+      return await ref.putFile(file);
+    } on FirebaseException catch (e) {
+      print(e);
+      return false;
+    }
   }
 }
