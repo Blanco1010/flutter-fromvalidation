@@ -103,7 +103,7 @@ class _LoginForm extends StatelessWidget {
               ),
               SizedBox(height: 30),
               MaterialButton(
-                padding: EdgeInsets.symmetric(horizontal: 100, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -111,9 +111,12 @@ class _LoginForm extends StatelessWidget {
                 disabledColor: Colors.black,
                 elevation: 0,
                 child: Container(
+                  width: 150,
                   child: Text(
-                    loginForm.isLoading ? 'Espere' : 'Ingresar',
+                    loginForm.isLoading ? 'Espere' : 'Crear una cuenta',
                     style: TextStyle(color: Colors.white),
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 onPressed: loginForm.isLoading
@@ -126,6 +129,8 @@ class _LoginForm extends StatelessWidget {
                         loginForm.isLoading = true;
 
                         Future.delayed(Duration(seconds: 2));
+
+                        loginForm.isLoading = false;
 
                         Navigator.pushReplacementNamed(context, 'home');
                       },
