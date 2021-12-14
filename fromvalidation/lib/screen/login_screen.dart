@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:fromvalidation/providers/login_form_provider.dart';
-import 'package:fromvalidation/ui/input_decorations.dart';
-import 'package:fromvalidation/widgets/widgets.dart';
+
 import 'package:provider/provider.dart';
+
+import 'package:fromvalidation/providers/login_form_provider.dart';
+
+import 'package:fromvalidation/services/auth_service.dart';
+
+import 'package:fromvalidation/ui/input_decorations.dart';
+
+import 'package:fromvalidation/widgets/widgets.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -120,17 +126,27 @@ class _LoginForm extends StatelessWidget {
                 ),
                 onPressed: loginForm.isLoading
                     ? null
-                    : () {
+                    : () async {
                         FocusScope.of(context).unfocus();
+
+                        final authService =
+                            Provider.of<AuthSerivce>(context, listen: false);
 
                         if (!loginForm.isValidForm()) return;
 
                         loginForm.isLoading = true;
 
-                        Future.delayed(Duration(seconds: 2));
+                        final String? errorMessage = await authService.login(
+                            loginForm.email, loginForm.password);
+
+                        if (errorMessage == null) {
+                          Navigator.pushReplacementNamed(context, 'home');
+                        } else {
+                          //to show error screen
+                          print(errorMessage);
+                        }
 
                         loginForm.isLoading = false;
-                        Navigator.pushReplacementNamed(context, 'home');
                       },
               )
             ],
