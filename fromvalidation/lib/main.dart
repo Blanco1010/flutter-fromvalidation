@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Material APP',
       theme: themeData,
-      initialRoute: 'login',
+      initialRoute: 'check_auth',
       routes: appRoutes,
       darkTheme:
           ThemeData.light().copyWith(scaffoldBackgroundColor: Colors.grey[300]),
