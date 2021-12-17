@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 class LoadingIndicator extends StatelessWidget {
   final String text;
 
-  const LoadingIndicator({required this.text});
+  const LoadingIndicator({Key? key, required this.text}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(50),
+      padding: const EdgeInsets.all(50),
       color: Colors.black.withOpacity(0.8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -22,8 +22,8 @@ class LoadingIndicator extends StatelessWidget {
 }
 
 Widget _getLoadingIndicator() {
-  return Padding(
-      child: Container(
+  return const Padding(
+      child: SizedBox(
           child: CircularProgressIndicator(strokeWidth: 3),
           width: 32,
           height: 32),
@@ -33,7 +33,7 @@ Widget _getLoadingIndicator() {
 Widget _getText(String displayedText) {
   return Text(
     displayedText,
-    style: TextStyle(color: Colors.white, fontSize: 14),
+    style: const TextStyle(color: Colors.white, fontSize: 14),
     textAlign: TextAlign.center,
   );
 }

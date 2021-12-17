@@ -10,18 +10,20 @@ import 'package:fromvalidation/services/services.dart';
 import 'package:fromvalidation/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final productsService = Provider.of<ProductsService>(context);
 
-    if (productsService.isLoading) return LoadingScreen();
+    if (productsService.isLoading) return const LoadingScreen();
 
     return Scaffold(
       // appBar: AppBar(title: Text('Producto'), centerTitle: true),
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
-          SliverAppBar(
+          const SliverAppBar(
             pinned: false,
             floating: true,
             //Una imagen
@@ -45,10 +47,10 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add, size: 40),
+        child: const Icon(Icons.add, size: 40),
         onPressed: () {
           productsService.selectedProduct =
-              new Product(available: false, name: '', price: 0);
+              Product(available: false, name: '', price: 0);
           Navigator.pushNamed(context, 'product');
         },
       ),

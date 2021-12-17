@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+
 import 'package:fromvalidation/models/models.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -20,11 +21,11 @@ class ProductsService extends ChangeNotifier {
   bool isSaving = false;
 
   ProductsService() {
-    this.loadProducts();
+    loadProducts();
   }
 
   Future<List<Product>> loadProducts() async {
-    this.isLoading = true;
+    isLoading = true;
     notifyListeners();
 
     final url = Uri.https(_baseUrl, 'products.json');
@@ -35,13 +36,13 @@ class ProductsService extends ChangeNotifier {
     productsMap.forEach((key, value) {
       final tempProduct = Product.fromMap(value);
       tempProduct.id = key;
-      this.products.add(tempProduct);
+      products.add(tempProduct);
     });
 
-    this.isLoading = false;
+    isLoading = false;
     notifyListeners();
 
-    return this.products;
+    return products;
   }
 
   Future saverOrCreateProduct(Product product) async {
@@ -49,9 +50,9 @@ class ProductsService extends ChangeNotifier {
     notifyListeners();
 
     if (product.id == null) {
-      await this.createProduct(product);
+      await createProduct(product);
     } else {
-      await this.updateProduct(product);
+      await updateProduct(product);
     }
 
     isSaving = false;
@@ -63,7 +64,9 @@ class ProductsService extends ChangeNotifier {
     final resp = await http.put(url, body: product.toJson());
     final decodedData = resp.body;
 
-    print(decodedData);
+    if (kDebugMode) {
+      print(decodedData);
+    }
 
     //Update the list of products
     products[products.indexWhere((element) => element.id == product.id)] =
@@ -79,16 +82,16 @@ class ProductsService extends ChangeNotifier {
 
     product.id = decodedData['name'];
 
-    this.products.add(product);
+    products.add(product);
 
     return product.id!;
   }
 
   void updateSelectedProductImage(XFile file) {
-    this.selectedProduct.picture = file.path;
+    selectedProduct.picture = file.path;
 
-    this.newPictureFile = File(file.path);
-    this.newNamePicture = file.name;
+    newPictureFile = File(file.path);
+    newNamePicture = file.name;
     // this.newPictureFile = File.fromUri(Uri(path: this.selectedProduct.picture));
     notifyListeners();
   }
@@ -99,7 +102,9 @@ class ProductsService extends ChangeNotifier {
 
       return await ref.putFile(file);
     } on FirebaseException catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return false;
     }
   }

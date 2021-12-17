@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,6 +14,8 @@ import 'package:fromvalidation/services/services.dart';
 import 'package:fromvalidation/widgets/widgets.dart';
 
 class ProductScreen extends StatelessWidget {
+  const ProductScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final productService = Provider.of<ProductsService>(context);
@@ -41,7 +44,7 @@ class _ProductScreenBody extends StatelessWidget {
       body: SingleChildScrollView(
         // To hiden the keyboard when to drag the screen
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             Stack(
@@ -52,7 +55,7 @@ class _ProductScreenBody extends StatelessWidget {
                   left: 10,
                   child: IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios_new,
                       color: Colors.white,
                       size: 40,
@@ -64,21 +67,25 @@ class _ProductScreenBody extends StatelessWidget {
                   right: 30,
                   child: IconButton(
                     onPressed: () async {
-                      final _picker = new ImagePicker();
+                      final _picker = ImagePicker();
                       final XFile? _pickedFile = await _picker.pickImage(
                         source: ImageSource.camera,
                         imageQuality: 100,
                       );
 
                       if (_pickedFile == null) {
-                        print('No seleccionó nada');
+                        if (kDebugMode) {
+                          print('No seleccionó nada');
+                        }
                         return;
                       }
 
-                      print('Tenemos imagen ${_pickedFile.path}');
+                      if (kDebugMode) {
+                        print('Tenemos imagen ${_pickedFile.path}');
+                      }
                       productService.updateSelectedProductImage(_pickedFile);
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.camera_alt_outlined,
                       color: Colors.white,
                       size: 40,
@@ -88,7 +95,7 @@ class _ProductScreenBody extends StatelessWidget {
               ],
             ),
             _ProductForm(),
-            SizedBox(height: 100),
+            const SizedBox(height: 100),
           ],
         ),
       ),
@@ -114,7 +121,7 @@ class _ProductScreenBody extends StatelessWidget {
 
           Navigator.pop(context);
         },
-        child: Icon(Icons.save),
+        child: const Icon(Icons.save),
       ),
     );
   }
@@ -126,7 +133,7 @@ class _ProductScreenBody extends StatelessWidget {
       builder: (BuildContext context) {
         return WillPopScope(
           onWillPop: () async => false,
-          child: AlertDialog(
+          child: const AlertDialog(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.0)),
             ),
@@ -146,9 +153,9 @@ class _ProductForm extends StatelessWidget {
     final product = productForm.product;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
         decoration: _buildBoxDecoration(),
         child: Form(
@@ -156,21 +163,23 @@ class _ProductForm extends StatelessWidget {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             children: [
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
                 initialValue: product.name,
                 onChanged: (value) => product.name = value,
                 validator: (value) {
-                  if (value == null || value.length < 1)
+                  if (value == null) {
                     return 'El nombre es obligatorio';
+                  }
                 },
                 decoration: InputDecorations.authInputDecoration(
                   hintText: 'Nombre del producto',
                   labelText: 'Nombre:',
-                  prefixIcon: Icon(Icons.account_box_sharp, color: Colors.red),
+                  prefixIcon:
+                      const Icon(Icons.account_box_sharp, color: Colors.red),
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               TextFormField(
                 initialValue: '${product.price}',
                 inputFormatters: [
@@ -185,8 +194,7 @@ class _ProductForm extends StatelessWidget {
                   }
                 },
                 validator: (value) {
-                  if (value == null || value.length < 1) {
-                    print('test');
+                  if (value == null) {
                     return 'El nombre es obligatorio';
                   }
                 },
@@ -194,14 +202,15 @@ class _ProductForm extends StatelessWidget {
                 decoration: InputDecorations.authInputDecoration(
                   hintText: '\$150',
                   labelText: 'Precio:',
-                  prefixIcon: Icon(Icons.account_box_sharp, color: Colors.red),
+                  prefixIcon:
+                      const Icon(Icons.account_box_sharp, color: Colors.red),
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               SwitchListTile.adaptive(
                 value: product.available,
                 onChanged: (value) => productForm.updateAvailability(value),
-                title: Text('Disponible'),
+                title: const Text('Disponible'),
                 activeTrackColor: Colors.red[300],
                 activeColor: Colors.white,
               )
@@ -212,7 +221,7 @@ class _ProductForm extends StatelessWidget {
     );
   }
 
-  BoxDecoration _buildBoxDecoration() => BoxDecoration(
+  BoxDecoration _buildBoxDecoration() => const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(25),

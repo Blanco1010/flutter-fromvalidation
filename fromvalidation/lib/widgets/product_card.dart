@@ -5,14 +5,14 @@ import 'package:fromvalidation/models/product.dart';
 class ProductCard extends StatelessWidget {
   final Product product;
 
-  const ProductCard({required this.product});
+  const ProductCard({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
-        margin: EdgeInsets.only(top: 30, bottom: 50),
+        margin: const EdgeInsets.only(top: 30, bottom: 50),
         width: double.infinity,
         height: 400,
         decoration: _cardBordes(),
@@ -47,7 +47,7 @@ class ProductCard extends StatelessWidget {
   BoxDecoration _cardBordes() => BoxDecoration(
           borderRadius: BorderRadius.circular(25),
           color: Colors.white,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Colors.black12,
               offset: Offset(0, 5),
@@ -66,10 +66,10 @@ class _NotAvailable extends StatelessWidget {
       child: FittedBox(
         fit: BoxFit.contain,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             available ? 'disponible' : 'No disponible',
-            style: TextStyle(color: Colors.white, fontSize: 20),
+            style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         ),
       ),
@@ -77,7 +77,7 @@ class _NotAvailable extends StatelessWidget {
       height: 70,
       decoration: BoxDecoration(
         color: available ? Colors.green[500] : Colors.amber[500],
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           bottomRight: Radius.circular(25),
           topLeft: Radius.circular(25),
         ),
@@ -97,16 +97,16 @@ class _PriceTag extends StatelessWidget {
       child: FittedBox(
         fit: BoxFit.contain,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             '\$$price',
-            style: TextStyle(color: Colors.white, fontSize: 20),
+            style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         ),
       ),
       width: 100,
       height: 70,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.red,
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(25),
@@ -126,9 +126,9 @@ class _ProductDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: 70),
+      padding: const EdgeInsets.only(right: 70),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         width: double.infinity,
         height: 70,
         decoration: _buildBoxDecoration(),
@@ -136,8 +136,8 @@ class _ProductDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '$title',
-              style: TextStyle(
+              title,
+              style: const TextStyle(
                 fontSize: 20,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -147,7 +147,7 @@ class _ProductDetails extends StatelessWidget {
             ),
             Text(
               subtitle,
-              style: TextStyle(fontSize: 15, color: Colors.white),
+              style: const TextStyle(fontSize: 15, color: Colors.white),
               overflow: TextOverflow.ellipsis,
             ),
           ],
@@ -156,7 +156,7 @@ class _ProductDetails extends StatelessWidget {
     );
   }
 
-  BoxDecoration _buildBoxDecoration() => BoxDecoration(
+  BoxDecoration _buildBoxDecoration() => const BoxDecoration(
         color: Colors.red,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(25),
@@ -173,7 +173,7 @@ class _BackgroundImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(25),
-      child: Container(
+      child: SizedBox(
           width: double.infinity,
           height: double.infinity,
           child: getImage(urlPicture)),
@@ -184,18 +184,20 @@ class _BackgroundImage extends StatelessWidget {
     String name = '';
     if (picture != null) name = (picture.split("/")[6]);
 
-    if (picture == null)
-      return Image(
+    if (picture == null) {
+      return const Image(
         image: AssetImage('assets/img/no-image.png'),
         fit: BoxFit.cover,
       );
+    }
 
-    if (picture.startsWith('http'))
+    if (picture.startsWith('http')) {
       return FadeInImage(
-        placeholder: AssetImage('assets/img/jar-loading.gif'),
+        placeholder: const AssetImage('assets/img/jar-loading.gif'),
         image: NetworkImage(picture),
         fit: BoxFit.cover,
       );
+    }
 
     final ref =
         FirebaseStorage.instance.ref().child('/multimedia-tienda/$name');
@@ -209,7 +211,7 @@ class _BackgroundImage extends StatelessWidget {
           url = snapshot.data;
 
           return DecoratedBox(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(25))),
             child: Image.network(
               url,
@@ -217,7 +219,7 @@ class _BackgroundImage extends StatelessWidget {
             ),
           );
         } else {
-          return Image(
+          return const Image(
             image: AssetImage('assets/img/jar-loading.gif'),
             fit: BoxFit.cover,
           );

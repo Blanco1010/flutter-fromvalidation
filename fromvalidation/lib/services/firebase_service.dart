@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 
 class FirebaseApi {
   static UploadTask? uploadFile(String destination, File file) {
@@ -9,7 +10,9 @@ class FirebaseApi {
 
       return ref.putFile(file);
     } on FirebaseException catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       return null;
     }
   }

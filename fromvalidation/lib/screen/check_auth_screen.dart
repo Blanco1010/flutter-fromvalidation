@@ -3,6 +3,8 @@ import 'package:fromvalidation/services/services.dart';
 import 'package:provider/provider.dart';
 
 class CheckAuthScreen extends StatelessWidget {
+  const CheckAuthScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthSerivce>(context, listen: false);

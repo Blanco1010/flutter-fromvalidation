@@ -7,18 +7,18 @@ class InputDecorations {
     required Icon prefixIcon,
   }) {
     return InputDecoration(
-      enabledBorder: UnderlineInputBorder(
+      enabledBorder: const UnderlineInputBorder(
         borderSide: BorderSide(color: Colors.redAccent),
       ),
-      focusedBorder: UnderlineInputBorder(
+      focusedBorder: const UnderlineInputBorder(
         borderSide: BorderSide(
           color: Colors.red,
           width: 2,
         ),
       ),
-      hintText: '$hintText',
-      labelText: '$labelText',
-      labelStyle: TextStyle(color: Colors.grey),
+      hintText: hintText,
+      labelText: labelText,
+      labelStyle: const TextStyle(color: Colors.grey),
       prefixIcon: prefixIcon,
     );
   }

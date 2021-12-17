@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 class AuthBackground extends StatelessWidget {
   final Widget child;
 
-  const AuthBackground({required this.child});
+  const AuthBackground({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       // color: Colors.red,
       width: double.infinity,
       height: double.infinity,
@@ -15,7 +15,7 @@ class AuthBackground extends StatelessWidget {
         children: [
           _PurpleBox(),
           _HeaderIcon(),
-          this.child,
+          child,
         ],
       ),
     );
@@ -28,8 +28,8 @@ class _HeaderIcon extends StatelessWidget {
     return SafeArea(
       child: Container(
         width: double.infinity,
-        margin: EdgeInsets.only(top: 30),
-        child: Icon(
+        margin: const EdgeInsets.only(top: 30),
+        child: const Icon(
           Icons.person_pin_circle,
           color: Colors.white,
           size: 100,
@@ -59,11 +59,12 @@ class _PurpleBox extends StatelessWidget {
     );
   }
 
-  BoxDecoration _purpleBackground() => BoxDecoration(
-          gradient: LinearGradient(colors: [
-        Color.fromRGBO(150, 30, 30, 1),
-        Color.fromRGBO(170, 40, 47, 1),
-      ], begin: Alignment.topLeft, end: Alignment.bottomRight));
+  BoxDecoration _purpleBackground() => const BoxDecoration(
+        gradient: LinearGradient(colors: [
+          Color.fromRGBO(150, 30, 30, 1),
+          Color.fromRGBO(170, 40, 47, 1),
+        ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+      );
 }
 
 class _Buggle extends StatelessWidget {
@@ -74,7 +75,7 @@ class _Buggle extends StatelessWidget {
       height: 100,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
-        color: Color.fromRGBO(255, 255, 255, 0.2),
+        color: const Color.fromRGBO(255, 255, 255, 0.2),
       ),
     );
   }

@@ -11,10 +11,12 @@ import 'package:fromvalidation/themes/themes.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  return runApp(AppState());
+  return runApp(const AppState());
 }
 
 class AppState extends StatelessWidget {
+  const AppState({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -22,12 +24,14 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthSerivce()),
         ChangeNotifierProvider(create: (_) => ProductsService()),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     );
   }
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

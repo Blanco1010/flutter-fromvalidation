@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fromvalidation/models/product.dart';
 
@@ -6,15 +7,17 @@ It is required to created a class to handle the data in the form
  */
 
 class ProductFormProvider extends ChangeNotifier {
-  GlobalKey<FormState> formKey = new GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Product product;
 
   ProductFormProvider(this.product);
 
   updateAvailability(bool value) {
-    print(value);
-    this.product.available = value;
+    if (kDebugMode) {
+      print(value);
+    }
+    product.available = value;
     notifyListeners();
   }
 

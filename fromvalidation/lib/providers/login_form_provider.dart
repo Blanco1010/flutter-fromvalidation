@@ -1,7 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class LoginFormProvider extends ChangeNotifier {
-  GlobalKey<FormState> formKey = new GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   String email = '';
   String password = '';
@@ -10,14 +11,15 @@ class LoginFormProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
 
   set isLoading(bool value) {
-    this._isLoading = value;
+    _isLoading = value;
     notifyListeners();
   }
 
   bool isValidForm() {
-    print(formKey.currentState?.validate());
-
-    print('$email - $password');
+    if (kDebugMode) {
+      print(formKey.currentState?.validate());
+      print('$email - $password');
+    }
 
     return formKey.currentState?.validate() ?? false;
   }

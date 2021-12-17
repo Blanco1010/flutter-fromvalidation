@@ -37,10 +37,10 @@ class Product {
       };
 
   Product copy() => Product(
-        name: this.name,
-        price: this.price,
-        available: this.available,
-        picture: this.picture,
-        id: this.id,
+        name: name,
+        price: price,
+        available: available,
+        picture: picture,
+        id: id,
       );
 }
