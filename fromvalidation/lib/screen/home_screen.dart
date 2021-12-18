@@ -15,6 +15,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productsService = Provider.of<ProductsService>(context);
+    final authService = Provider.of<AuthSerivce>(context, listen: false);
 
     if (productsService.isLoading) return const LoadingScreen();
 
@@ -23,14 +24,21 @@ class HomeScreen extends StatelessWidget {
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
-          const SliverAppBar(
+          SliverAppBar(
             pinned: false,
             floating: true,
             //Una imagen
             // flexibleSpace: FlexibleSpaceBar(),
-            title: Text('Producto'),
+            title: const Text('Producto'),
             // expandedHeight: 150,
             centerTitle: true,
+            leading: IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                authService.logout();
+                Navigator.pushReplacementNamed(context, 'login');
+              },
+            ),
           ),
           SliverList(
             delegate:
