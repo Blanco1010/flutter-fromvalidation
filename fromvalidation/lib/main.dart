@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
       theme: themeData,
       initialRoute: 'check_auth',
       routes: appRoutes,
+      scaffoldMessengerKey: NotificationsService.messengerKey,
       darkTheme:
           ThemeData.light().copyWith(scaffoldBackgroundColor: Colors.grey[300]),
       themeMode: ThemeMode.system,

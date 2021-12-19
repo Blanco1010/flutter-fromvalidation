@@ -92,6 +92,9 @@ class ProductsService extends ChangeNotifier {
 
     newPictureFile = File(file.path);
     newNamePicture = file.name;
+    if (kDebugMode) {
+      print(newNamePicture);
+    }
     // this.newPictureFile = File.fromUri(Uri(path: this.selectedProduct.picture));
     notifyListeners();
   }

@@ -21,7 +21,7 @@ class RegisterScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            const SizedBox(height: 200),
+            const SizedBox(height: 100),
             CardContainer(
               child: Column(
                 children: [

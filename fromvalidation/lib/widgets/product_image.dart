@@ -1,8 +1,8 @@
-import 'dart:io';
-
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
+import 'package:fromvalidation/services/services.dart';
+import 'package:provider/provider.dart';
 
 class ProductImage extends StatelessWidget {
   final String? url;
@@ -23,7 +23,7 @@ class ProductImage extends StatelessWidget {
               topLeft: Radius.circular(25),
               topRight: Radius.circular(25),
             ),
-            child: getImage(url),
+            child: getImage(url, context),
           ),
         ),
       ),
@@ -40,22 +40,22 @@ class ProductImage extends StatelessWidget {
     );
   }
 
-  Widget getImage(String? picture) {
-    if (kDebugMode) {
-      print(picture);
-    }
-    bool control = false;
+  Widget getImage(String? picture, BuildContext context) {
+    final productService = Provider.of<ProductsService>(context, listen: false);
     String name = '';
-    if (picture != null) {
-      name = (picture.split("/")[6]);
-    } else {
-      control = true;
-    }
+
+    if (picture != null) name = (picture.split("/")[6]);
+
     if (picture == null) {
       return const Image(
         image: AssetImage('assets/img/no-image.png'),
         fit: BoxFit.cover,
       );
+    }
+
+    if (picture.split("/")[1] == 'data' &&
+        productService.newPictureFile != null) {
+      return Image.file(productService.newPictureFile!);
     }
 
     if (picture.startsWith('http')) {
@@ -66,37 +66,32 @@ class ProductImage extends StatelessWidget {
       );
     }
 
-    if (control) {
-      final ref =
-          FirebaseStorage.instance.ref().child('/multimedia-tienda/$name');
-      // no need of the file extension, the name will do fine.
-      String url;
+    final ref =
+        FirebaseStorage.instance.ref().child('/multimedia-tienda/$name');
+// no need of the file extension, the name will do fine.
+    String url;
 
-      return FutureBuilder(
-        future: ref.getDownloadURL(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.hasData) {
-            url = snapshot.data;
+    return FutureBuilder(
+      future: ref.getDownloadURL(),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.hasData) {
+          url = snapshot.data;
 
-            return DecoratedBox(
-              decoration: const BoxDecoration(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(25))),
-              child: Image.network(
-                url,
-                fit: BoxFit.cover,
-              ),
-            );
-          } else {
-            return const Image(
-              image: AssetImage('assets/img/jar-loading.gif'),
+          return DecoratedBox(
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(25))),
+            child: Image.network(
+              url,
               fit: BoxFit.cover,
-            );
-          }
-        },
-      );
-    } else {
-      return Image.file(File(picture));
-    }
+            ),
+          );
+        } else {
+          return const Image(
+            image: AssetImage('assets/img/jar-loading.gif'),
+            fit: BoxFit.cover,
+          );
+        }
+      },
+    );
   }
 }

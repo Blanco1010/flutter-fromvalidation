@@ -109,12 +109,10 @@ class _ProductScreenBody extends StatelessWidget {
             await productService
                 .saverOrCreateProduct(productService.selectedProduct);
 
-            File _filePath = productService.newPictureFile!;
-
             if (productService.newPictureFile != null) {
               await productService.uploadFile(
                 'multimedia-tienda/${productService.newNamePicture}',
-                _filePath,
+                productService.newPictureFile!,
               );
             }
           } else {}
