@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Material APP',
       theme: themeData,
-      initialRoute: 'check_auth',
+      initialRoute: 'login',
       routes: appRoutes,
       scaffoldMessengerKey: NotificationsService.messengerKey,
       darkTheme:

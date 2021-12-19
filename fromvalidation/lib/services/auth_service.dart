@@ -16,6 +16,7 @@ class AuthSerivce extends ChangeNotifier {
     final Map<String, dynamic> authData = {
       'email': email,
       'password': password,
+      'returnSecureToken': true,
     };
 
     final url =
