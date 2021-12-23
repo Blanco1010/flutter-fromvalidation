@@ -37,7 +37,7 @@ class ProductsService extends ChangeNotifier {
     );
 
     final resp = await http.get(url);
-
+    //El error es por que el token ya habia vencido
     final Map<String, dynamic> productsMap = json.decode(resp.body);
 
     productsMap.forEach((key, value) {
